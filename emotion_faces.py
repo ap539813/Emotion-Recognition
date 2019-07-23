@@ -15,12 +15,11 @@ def reshape(x):
     x_r = x.reshape((x.shape[0], x.shape[1], x.shape[2], 1))
     return x_r
 colors = {'neutral':(255, 255, 255), 'angry':(0, 0, 255), 'disgust':(0, 139, 139), 'fear':(0, 0, 0), 'happy':(0, 255, 255), 'sad':(255, 0, 0), 'surprised':(255, 245, 0)}
-imotions = {0:'angry', 1:'disgust', 2:'fear', 3:'happy', 4:'sad',
-                5:'surprised', 6:'neutral'}
-# imotions = {0:'angry', 1:'fear', 2:'happy', 3:'sad',
-#                4:'surprised', 5:'neutral'}
 
-model = load_model('first_53best_model.hdf5')
+imotions = {0:'angry', 1:'fear', 2:'happy', 3:'sad',
+               4:'surprised', 5:'neutral'}
+
+model = load_model('first_5322_model.hdf5')
 face_cascade = cv.CascadeClassifier('haarcascade_frontalface_default.xml')
 cam = cv.VideoCapture(0)
 while True:
@@ -30,7 +29,7 @@ while True:
     for (x,y,w,h) in faces:
         roi_gray = gray[y:y+h, x:x+w]
         roi_color = img[y:y+h, x:x+w]
-        roi_gray = cv.resize(roi_gray, (64, 64), interpolation = cv.INTER_AREA)
+        roi_gray = cv.resize(roi_gray, (48, 48), interpolation = cv.INTER_AREA)
         roi_gray = convert_dtype(np.array([roi_gray]))
         roi_gray = normalize(roi_gray)
         roi_gray = reshape(roi_gray)
