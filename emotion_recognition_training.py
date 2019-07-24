@@ -17,10 +17,10 @@ emotions = csv_file['emotion'].tolist()
 for i in range(len(emotions)):
   if emotions[i] != 0:
     emotions[i] -= 1
-    
+
 for i in range(len(faces)):
   faces[i] = np.array(faces[i].split()).reshape(48, 48).astype('float32')
-  
+
 faces = np.array(faces)
 emotions = np.array(emotions)
 
@@ -28,20 +28,20 @@ X = list(faces)
 y = list(emotions)
 
 #2. importing japanese girls dataset and preprocessing it
-mypath = "jaffe"
+mypath = "/home/ankush/Desktop/TEAM 69-EMOTION RECOGNITION FROM FACIAL EXPRESSIONS/jaffe"
 onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))][1:]
 
 onlyfiles.remove('README')
+onlyfiles.remove('.DS_Store')
 onlyfiles = np.array(onlyfiles)
 imotions = {'AN':0, 'FE':1, 'HA':2, 'SA':3,
                 'SU':4, 'NE':5}
-imotions1 = {1:2, 2:6, 3:3, 4:0, 5:4, 6:5}
+imotions1 = {1:2, 3:3, 4:0, 5:4, 6:5, 7:1}
 
-X = []
-y = []
 np.random.shuffle(onlyfiles)
 for i in onlyfiles:
   if i[3:5] != 'DI':
+    print(mypath + '/' + i)
     img = cv2.imread(mypath + '/' + i)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     dim = (48, 48)
@@ -50,7 +50,7 @@ for i in onlyfiles:
     y.append(imotions[i[3:5]])
 
 #3. reading the datset made by our team and preprocessing it
-mypath1 = "owndata"
+mypath1 = "/home/ankush/Desktop/TEAM 69-EMOTION RECOGNITION FROM FACIAL EXPRESSIONS/owndata"
 onlyfiles1 = np.array([f for f in listdir(mypath1) if isfile(join(mypath1, f))])
 
 np.random.shuffle(onlyfiles1)
@@ -62,7 +62,7 @@ for i in onlyfiles1:
     img = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
     X.append(img)
     y.append(imotions1[int(i[0])])
-    
+
 dataset = np.array(X)
 y = np.array(y)
 
@@ -97,13 +97,13 @@ def normalize(x):
         x: numpy array
     Outputs:
         x_n: numpy array, elements normalized to be between (0, 1)
-    """    
+    """
     # YOUR CODE HERE
     x_n = (x - 0)/(255)
     return x_n
-    
+
 X_train = normalize(X_train)
-X_test = normalize(X_test) 
+X_test = normalize(X_test)
 
 def reshape(x):
     """
@@ -118,7 +118,7 @@ def reshape(x):
     return x_r
 
 X_train = reshape(X_train)
-X_test = reshape(X_test) 
+X_test = reshape(X_test)
 
 def oneHot(y, Ny):
     """
@@ -296,7 +296,7 @@ def oneHot_tolabel(y):
     y_b = []
     for i in range(len(y)):
       y_b.append(np.argmax(y[i]))
-      
+
     y_b = np.array(y_b)
     return y_b
 
@@ -352,4 +352,3 @@ def accuracy(x_test, y_test, model):
 
 acc = accuracy(X_test, y_test, model)
 print('Test accuracy is, ', acc*100, '%')
-    
