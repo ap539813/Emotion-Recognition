@@ -21,7 +21,7 @@ To recognise the emotions of the human face using CNN algorithm.
 3. Angry
 4. Neutral
 5. Scared
-6. Fear
+6. Surprise
 # 1.5 DIFFICULTIES FACED
 * The downloaded databases was extremely biased.
 * Not easily accessible datasets.
